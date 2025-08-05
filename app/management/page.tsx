@@ -1,5 +1,5 @@
-// Импортируем компонент из главной страницы
-import { TournamentSystem } from "../page"
+// Импортируем компонент турнирной системы
+import TournamentSystem from "../../components/tournament-system"
 
 export default function ManagementPage() {
   return <TournamentSystem />
