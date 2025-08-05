@@ -4,45 +4,6 @@ import HomePage from "./home/page"
 export default function RootPage() {
   return <HomePage />
 }
-
-// Экспортируем также основной компонент турнирной системы для использования в /management
-"use client"
-
-import { useState } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import {
-  Trophy,
-  Users,
-  UserCheck,
-  Shuffle,
-  Monitor,
-  FileText,
-  Heart,
-  Bell,
-  Database,
-  TrendingUp,
-  Calendar,
-} from "lucide-react"
-import ParticipantRegistration from "../components/participant-registration"
-import JudgeRegistration from "../components/judge-registration"
-import TournamentDraw from "../components/tournament-draw"
-import TatamiOperator from "../components/tatami-operator"
-import SchedulePlanner from "../components/schedule-planner"
-import type { Participant, Judge, Category, Fight, Tournament, FightResult } from "../types"
-import ParticipantsList from "../components/participants-list"
-import LiveDisplay from "../components/live-display"
-import PublicViewer from "../components/public-viewer"
-import ReportsGenerator from "../components/reports-generator"
-import JudgesManagement from "../components/judges-management"
-import MedicalPenalties from "../components/medical-penalties"
-import NotificationsSystem from "../components/notifications-system"
-import BackupSystem from "../components/backup-system"
-import RatingSystem from "../components/rating-system"
-import BracketsViewer from "../components/brackets-viewer"
-
-export function TournamentSystem() {
   const [tournament, setTournament] = useState<Tournament>({
     id: crypto.randomUUID(),
     name: "Турнир по Киокушинкай каратэ",
