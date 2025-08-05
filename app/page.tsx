@@ -1,3 +1,11 @@
+// Импортируем компонент стартовой страницы
+import HomePage from "./home/page"
+
+export default function RootPage() {
+  return <HomePage />
+}
+
+// Экспортируем также основной компонент турнирной системы для использования в /management
 "use client"
 
 import { useState } from "react"
@@ -34,7 +42,7 @@ import BackupSystem from "../components/backup-system"
 import RatingSystem from "../components/rating-system"
 import BracketsViewer from "../components/brackets-viewer"
 
-export default function TournamentSystem() {
+export function TournamentSystem() {
   const [tournament, setTournament] = useState<Tournament>({
     id: crypto.randomUUID(),
     name: "Турнир по Киокушинкай каратэ",
