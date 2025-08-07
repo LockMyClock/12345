@@ -97,7 +97,137 @@ export default function TournamentDraw({ participants, onCategoriesCreated, onFi
   const [tatamisCount, setTatamisCount] = useState(4)
   const [separateByClubs, setSeparateByClubs] = useState(true)
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-  const [showAdvanced, setShowAdvanced] = useState(false)
+  const [selectedCategoryTemplates, setSelectedCategoryTemplates] = useState<string[]>([])
+  const [showCategoryTemplates, setShowCategoryTemplates] = useState(false)
+
+  // Создание категорий из предустановленных шаблонов
+  const createCategoriesFromTemplates = () => {
+    const newCategories: Category[] = []
+    
+    // Фильтруем нужные категории
+    let selectedTemplates: TournamentCategoryData[] = []
+    
+    if (selectedCategoryTemplates.includes('kumite-beginners')) {
+      selectedTemplates = [...selectedTemplates, ...kumiteBeginnerCategories]
+    }
+    if (selectedCategoryTemplates.includes('kumite-experienced')) {
+      selectedTemplates = [...selectedTemplates, ...kumiteExperiencedCategories]
+    }
+    if (selectedCategoryTemplates.includes('kata-beginners')) {
+      selectedTemplates = [...selectedTemplates, ...kataBeginnerCategories]
+    }
+    if (selectedCategoryTemplates.includes('kata-experienced')) {
+      selectedTemplates = [...selectedTemplates, ...kataExperiencedCategories]
+    }
+    if (selectedCategoryTemplates.includes('veterans')) {
+      selectedTemplates = [...selectedTemplates, ...veteranCategories]
+    }
+    if (selectedCategoryTemplates.includes('kata-groups')) {
+      selectedTemplates = [...selectedTemplates, ...kataGroupCategories]
+    }
+
+    // Если ничего не выбрано, используем автоматическое создание
+    if (selectedTemplates.length === 0) {
+      createCategories()
+      return
+    }
+
+    // Создаем категории и автоматически назначаем участников
+    selectedTemplates.forEach((template) => {
+      const eligibleParticipants = participants.filter(participant => {
+        // Проверяем соответствие по возрасту
+        if (participant.age < template.ageMin || participant.age > template.ageMax) {
+          return false
+        }
+
+        // Проверяем соответствие по полу
+        if (template.gender !== 'mixed' && participant.gender !== template.gender) {
+          return false
+        }
+
+        // Проверяем соответствие по дисциплине
+        if (template.type === 'kata' && !participant.participatesInKata) {
+          return false
+        }
+        if (template.type === 'kumite' && !participant.participatesInKumite) {
+          return false
+        }
+        if (template.type === 'kata-group' && !participant.participatesInKataGroup) {
+          return false
+        }
+
+        // Проверяем соответствие по уровню опыта
+        if (template.experienceLevel === 'beginner' && participant.isExperienced) {
+          return false
+        }
+        if (template.experienceLevel === 'experienced' && !participant.isExperienced) {
+          return false
+        }
+
+        return true
+      })
+
+      // Если есть участники для этой категории, создаем её
+      if (eligibleParticipants.length > 0) {
+        // Для кумитэ дополнительно разбиваем по весовым категориям
+        if (template.type === 'kumite' && template.weightCategories && template.weightCategories.length > 0) {
+          template.weightCategories.forEach((weightRange, index) => {
+            const weightParticipants = filterByWeightRange(eligibleParticipants, weightRange)
+            
+            if (weightParticipants.length > 0) {
+              const category: Category = {
+                id: crypto.randomUUID(),
+                name: `${template.name} - ${weightRange}`,
+                type: template.type,
+                ageMin: template.ageMin,
+                ageMax: template.ageMax,
+                gender: template.gender,
+                experienceLevel: template.experienceLevel,
+                participants: separateByClubs ? separateByClub(weightParticipants) : weightParticipants,
+                systemType: weightParticipants.length === 3 ? "round-robin" : "olympic",
+              }
+              newCategories.push(category)
+            }
+          })
+        } else {
+          // Для ката и ката-групп создаем обычные категории
+          const category: Category = {
+            id: crypto.randomUUID(),
+            name: template.name,
+            type: template.type,
+            ageMin: template.ageMin,
+            ageMax: template.ageMax,
+            gender: template.gender,
+            experienceLevel: template.experienceLevel,
+            participants: separateByClubs ? separateByClub(eligibleParticipants) : eligibleParticipants,
+            systemType: template.type === "kata-group" || eligibleParticipants.length === 3 ? "round-robin" : "olympic",
+          }
+          newCategories.push(category)
+        }
+      }
+    })
+
+    setCategories(newCategories)
+    onCategoriesCreated(newCategories)
+  }
+
+  // Фильтрация участников по весовой категории
+  const filterByWeightRange = (participants: Participant[], weightRange: string): Participant[] => {
+    const [min, max] = parseWeightRange(weightRange)
+    return participants.filter(p => p.weight >= min && (max === -1 || p.weight <= max))
+  }
+
+  // Парсинг весовой категории
+  const parseWeightRange = (range: string): [number, number] => {
+    if (range.startsWith('До ')) {
+      const weight = parseFloat(range.replace('До ', '').replace(' кг', ''))
+      return [0, weight]
+    } else if (range.startsWith('Св. ')) {
+      const weight = parseFloat(range.replace('Св. ', '').replace(' кг', ''))
+      return [weight + 0.1, -1] // -1 означает без верхнего ограничения
+    }
+    return [0, -1]
+  }
 
   const sensors = useSensors(
     useSensor(PointerSensor),
