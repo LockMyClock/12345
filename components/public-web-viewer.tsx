@@ -345,17 +345,153 @@ export default function PublicWebViewer({
       </div>
 
       <div className="container mx-auto px-4 py-6">
-        <Tabs defaultValue="live" className="w-full">
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="live">Live</TabsTrigger>
-            <TabsTrigger value="schedule">Расписание</TabsTrigger>
-            <TabsTrigger value="results">Результаты</TabsTrigger>
+        <Tabs defaultValue="general" className="w-full">
+          <TabsList className="grid w-full grid-cols-6">
+            <TabsTrigger value="general">Общая информация</TabsTrigger>
+            <TabsTrigger value="live">Обновления в реальном времени</TabsTrigger>
             <TabsTrigger value="participants">Участники</TabsTrigger>
-            <TabsTrigger value="categories">Категории</TabsTrigger>
+            <TabsTrigger value="brackets">Сетки</TabsTrigger>
+            <TabsTrigger value="results">Результаты</TabsTrigger>
+            <TabsTrigger value="streams">Прямые трансляции</TabsTrigger>
           </TabsList>
 
-          {/* Live трансляция */}
-          <TabsContent value="live" className="mt-6">
+          {/* Общая информация */}
+          <TabsContent value="general" className="mt-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Trophy className="h-6 w-6 text-yellow-600" />
+                    О турнире
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <h3 className="font-semibold text-lg">{tournament.name}</h3>
+                    <p className="text-gray-600">Турнир по Киокушинкай каратэ</p>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <div className="text-sm text-gray-600">Дата проведения</div>
+                      <div className="font-medium">{new Date(tournament.date).toLocaleDateString("ru-RU")}</div>
+                    </div>
+                    <div>
+                      <div className="text-sm text-gray-600">Место проведения</div>
+                      <div className="font-medium">{tournament.location}</div>
+                    </div>
+                    <div>
+                      <div className="text-sm text-gray-600">Статус</div>
+                      <Badge
+                        className={
+                          tournament.status === "in-progress"
+                            ? "bg-green-100 text-green-800"
+                            : tournament.status === "completed"
+                              ? "bg-blue-100 text-blue-800"
+                              : "bg-yellow-100 text-yellow-800"
+                        }
+                      >
+                        {tournament.status === "registration"
+                          ? "Регистрация"
+                          : tournament.status === "draw"
+                            ? "Жеребьёвка"
+                            : tournament.status === "in-progress"
+                              ? "В процессе"
+                              : "Завершён"}
+                      </Badge>
+                    </div>
+                    <div>
+                      <div className="text-sm text-gray-600">Количество татами</div>
+                      <div className="font-medium">{tournament.tatamisCount}</div>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t">
+                    <h4 className="font-semibold mb-2">Статистика турнира</h4>
+                    <div className="grid grid-cols-3 gap-4 text-center">
+                      <div>
+                        <div className="text-2xl font-bold text-blue-600">{tournament.participants.length}</div>
+                        <div className="text-sm text-gray-600">Участников</div>
+                      </div>
+                      <div>
+                        <div className="text-2xl font-bold text-green-600">{tournament.categories.length}</div>
+                        <div className="text-sm text-gray-600">Категорий</div>
+                      </div>
+                      <div>
+                        <div className="text-2xl font-bold text-purple-600">{fights.length}</div>
+                        <div className="text-sm text-gray-600">Боёв</div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Users className="h-6 w-6 text-blue-600" />
+                    Дисциплины
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-semibold text-green-800">КАТА</h4>
+                        <Badge className="bg-green-100 text-green-800">
+                          {tournament.participants.filter((p) => p.participatesInKata).length} участников
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-green-700">
+                        Показательные соревнования - демонстрация техники выполнения форм
+                      </p>
+                    </div>
+
+                    <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-semibold text-red-800">КУМИТЭ</h4>
+                        <Badge className="bg-red-100 text-red-800">
+                          {tournament.participants.filter((p) => p.participatesInKumite).length} участников
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-red-700">
+                        Спарринговые поединки - контактные бои между участниками
+                      </p>
+                    </div>
+
+                    <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg">
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-semibold text-purple-800">ГРУППОВЫЕ КАТА</h4>
+                        <Badge className="bg-purple-100 text-purple-800">
+                          {tournament.participants.filter((p) => p.participatesInKataGroup).length} участников
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-purple-700">
+                        Синхронное выполнение ката командами из 3 человек
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                    <h4 className="font-semibold mb-2">Системы турнира</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex items-center justify-between">
+                        <span>🏆 Олимпийская система</span>
+                        <span className="text-gray-600">Для категорий с 4+ участниками</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span>🔄 Круговая система</span>
+                        <span className="text-gray-600">Для категорий с 3 участниками</span>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Обновления в реальном времени */}
+          <TabsContent value="live" className="mt-6">{/* Live трансляция */}
             <div className="space-y-6">
               {/* Текущие бои */}
               <Card>
