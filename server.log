@@ -1,0 +1,22 @@
+
+> my-v0-project@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.2.4
+   - Local:        http://localhost:3000
+   - Network:      http://10.64.203.36:3000
+
+ ✓ Starting...
+ ✓ Ready in 2.1s
+ ○ Compiling / ...
+ ✓ Compiled / in 12.4s (785 modules)
+ GET / 200 in 13072ms
+ ⚠ Cross origin request detected from dfb1e637-23bc-4053-8f67-8eca5643f7a6.preview.emergentagent.com to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+ ✓ Compiled in 1151ms (344 modules)
+ GET / 200 in 35ms
+ ✓ Compiled in 592ms (344 modules)
+ GET / 200 in 24ms
+ ✓ Compiled in 1417ms (344 modules)
+ GET / 200 in 46ms
+[?25h
