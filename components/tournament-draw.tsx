@@ -704,6 +704,172 @@ export default function TournamentDraw({ participants, onCategoriesCreated, onFi
         </CardContent>
       </Card>
 
+      {showCategoryTemplates && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Шаблоны категорий (из скриншотов)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <h4 className="font-medium text-green-700">КУМИТЭ - Начинающие</h4>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="kumite-beginners"
+                    checked={selectedCategoryTemplates.includes('kumite-beginners')}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedCategoryTemplates([...selectedCategoryTemplates, 'kumite-beginners'])
+                      } else {
+                        setSelectedCategoryTemplates(selectedCategoryTemplates.filter(t => t !== 'kumite-beginners'))
+                      }
+                    }}
+                  />
+                  <label htmlFor="kumite-beginners" className="text-sm">
+                    Все возрастные группы (6-7 до 18+ лет)
+                  </label>
+                </div>
+                <div className="text-xs text-gray-600 pl-6">
+                  Включает весовые категории для мальчиков, девочек, юношей, девушек, мужчин, женщин
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-medium text-blue-700">КУМИТЭ - Опытные</h4>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="kumite-experienced"
+                    checked={selectedCategoryTemplates.includes('kumite-experienced')}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedCategoryTemplates([...selectedCategoryTemplates, 'kumite-experienced'])
+                      } else {
+                        setSelectedCategoryTemplates(selectedCategoryTemplates.filter(t => t !== 'kumite-experienced'))
+                      }
+                    }}
+                  />
+                  <label htmlFor="kumite-experienced" className="text-sm">
+                    Все возрастные группы (6-7 до 18+ лет)
+                  </label>
+                </div>
+                <div className="text-xs text-gray-600 pl-6">
+                  Те же весовые категории, но для опытных участников
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-medium text-purple-700">КАТА - Начинающие</h4>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="kata-beginners"
+                    checked={selectedCategoryTemplates.includes('kata-beginners')}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedCategoryTemplates([...selectedCategoryTemplates, 'kata-beginners'])
+                      } else {
+                        setSelectedCategoryTemplates(selectedCategoryTemplates.filter(t => t !== 'kata-beginners'))
+                      }
+                    }}
+                  />
+                  <label htmlFor="kata-beginners" className="text-sm">
+                    Все возрастные группы
+                  </label>
+                </div>
+                <div className="text-xs text-gray-600 pl-6">
+                  Тайкеку соно ичи/ни/сан для всех возрастных групп
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-medium text-orange-700">КАТА - Опытные</h4>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="kata-experienced"
+                    checked={selectedCategoryTemplates.includes('kata-experienced')}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedCategoryTemplates([...selectedCategoryTemplates, 'kata-experienced'])
+                      } else {
+                        setSelectedCategoryTemplates(selectedCategoryTemplates.filter(t => t !== 'kata-experienced'))
+                      }
+                    }}
+                  />
+                  <label htmlFor="kata-experienced" className="text-sm">
+                    Все возрастные группы
+                  </label>
+                </div>
+                <div className="text-xs text-gray-600 pl-6">
+                  От Тайкеку до Канку/Гарю/Сусихо/Сейпай в зависимости от возраста
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-medium text-red-700">ВЕТЕРАНЫ 35+</h4>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="veterans"
+                    checked={selectedCategoryTemplates.includes('veterans')}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedCategoryTemplates([...selectedCategoryTemplates, 'veterans'])
+                      } else {
+                        setSelectedCategoryTemplates(selectedCategoryTemplates.filter(t => t !== 'veterans'))
+                      }
+                    }}
+                  />
+                  <label htmlFor="veterans" className="text-sm">
+                    Мужчины и женщины 35+
+                  </label>
+                </div>
+                <div className="text-xs text-gray-600 pl-6">
+                  Ката и кумитэ для ветеранов с упрощенными весовыми категориями
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-medium text-teal-700">ГРУППОВЫЕ КАТА</h4>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="kata-groups"
+                    checked={selectedCategoryTemplates.includes('kata-groups')}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedCategoryTemplates([...selectedCategoryTemplates, 'kata-groups'])
+                      } else {
+                        setSelectedCategoryTemplates(selectedCategoryTemplates.filter(t => t !== 'kata-groups'))
+                      }
+                    }}
+                  />
+                  <label htmlFor="kata-groups" className="text-sm">
+                    Команды по 3 человека
+                  </label>
+                </div>
+                <div className="text-xs text-gray-600 pl-6">
+                  Младшая (6-13 лет) и старшая (14+ лет) группы
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+              <h5 className="font-medium text-blue-800 mb-2">ℹ️ Информация о шаблонах</h5>
+              <ul className="text-sm text-blue-700 space-y-1">
+                <li>• Категории автоматически создаются на основе ваших скриншотов</li>
+                <li>• Участники автоматически распределяются по возрасту, полу и уровню опыта</li>
+                <li>• Для кумитэ дополнительно применяются весовые категории</li>
+                <li>• Система турнира выбирается автоматически (олимпийская или круговая)</li>
+                <li>• Для категорий с 3 участниками используется круговая система</li>
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {categories.length > 0 && (
         <Card>
           <CardHeader>
