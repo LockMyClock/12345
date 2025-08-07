@@ -662,9 +662,19 @@ export default function TournamentDraw({ participants, onCategoriesCreated, onFi
               {showAdvanced ? "Скрыть" : "Показать"} настройки
             </Button>
 
-            <Button onClick={createCategories}>
+            <Button onClick={() => setShowCategoryTemplates(!showCategoryTemplates)} variant="outline">
+              <Target className="h-4 w-4 mr-2" />
+              {showCategoryTemplates ? "Скрыть" : "Показать"} шаблоны категорий
+            </Button>
+
+            <Button onClick={createCategories} variant="outline">
               <Users className="h-4 w-4 mr-2" />
-              Создать категории
+              Автоматические категории
+            </Button>
+
+            <Button onClick={createCategoriesFromTemplates}>
+              <Users className="h-4 w-4 mr-2" />
+              Создать из шаблонов
             </Button>
 
             {categories.length > 0 && (
