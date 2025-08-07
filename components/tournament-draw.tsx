@@ -12,6 +12,16 @@ import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSo
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import type { Participant, Category, Fight } from "../types"
+import { 
+  allTournamentCategories, 
+  kumiteBeginnerCategories, 
+  kumiteExperiencedCategories,
+  kataBeginnerCategories,
+  kataExperiencedCategories,
+  veteranCategories,
+  kataGroupCategories,
+  type TournamentCategoryData
+} from "../data/tournament-categories"
 
 interface TournamentDrawProps {
   participants: Participant[]
