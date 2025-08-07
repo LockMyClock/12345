@@ -99,6 +99,7 @@ export default function TournamentDraw({ participants, onCategoriesCreated, onFi
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [selectedCategoryTemplates, setSelectedCategoryTemplates] = useState<string[]>([])
   const [showCategoryTemplates, setShowCategoryTemplates] = useState(false)
+  const [showAdvanced, setShowAdvanced] = useState(false)
 
   // Создание категорий из предустановленных шаблонов
   const createCategoriesFromTemplates = () => {
